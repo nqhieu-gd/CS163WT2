@@ -1,2 +1,97 @@
 #include <iostream>
 
+struct Tree {
+    int val;
+    Tree* left;
+    Tree* right;
+
+    Tree(int a): val(a), left(nullptr), right(nullptr) {}
+    ~Tree() {
+        if (left) delete left;
+        if (right) delete right;
+    }
+};
+
+void Input(Tree*& head, int a) {
+    if (head == nullptr) {
+        head = new Tree(a);
+        return;
+    }
+    if (head->val < a) {
+        if (head->right == nullptr) head->right = new Tree(a);
+        else Input(head->right, a);
+    }
+    else  {
+        if (head->left == nullptr) head->left = new Tree(a);
+        else Input(head->left, a);
+    }
+}
+
+void Display(Tree* head) {
+    if (head == nullptr) return;
+    Display(head->left);
+    std::cout << "  " << head->val << "  ";
+    Display(head->right);
+}
+
+void Range(Tree* head, int x, int y) {
+    if (!head) return;
+    std::cout << '(';
+    Range(head->left, x, y);
+    if (x <= head->val && y >= head-> val) {
+        std::cout << head->val << "  ";
+    }
+    Range(head->right, x, y);
+    
+    std::cout << ')';
+}
+
+Tree* Closest(Tree* head, int x) {
+    if (!head) return nullptr;
+    Tree* cur = head;
+    if (x < head->val) {
+        if (x < head->left->val || head->val - x > x - head->left->val) cur = Closest(head->left, x);
+    }
+    else if (x > head->val) {
+        if (x > head->right->val || head->val - x < x - head->right->val) cur = Closest(head->right, x);
+    }
+    return cur;
+}
+
+Tree* Ancestor(Tree* head, int x, int y) {
+    if (!head) return nullptr;
+    if (x > y) {
+        int temp = x;
+        x = y;
+        y = temp;
+    }
+    while (head->val > y || head->val < x) {
+        while (head->val > y) head = head->left;
+        while (head->val < x) head = head->right;
+    }
+    return head;
+}
+
+int main() {
+    Tree* head = nullptr;
+    Input(head, 739);
+    Input(head, 543);
+    Input(head, 43);
+    Input(head, 25435);
+    Input(head, 2);
+    Input(head, 435);
+    Input(head, 32);
+    Input(head, 5);
+    Input(head, 243);
+    Display(head);
+//    Range(head, 18, 360);
+    // std::cout << '\n';
+    // Tree* cs = Closest(head, 360);
+    // if (cs) std::cout << cs->val;
+    Tree* act = Ancestor(head, 25435, 5);
+    if (act) std::cout << '\n' << act->val;
+
+    if(head) delete head;
+
+    return 0;
+}
