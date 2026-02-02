@@ -35,7 +35,7 @@ public:
 /*
 TIME - SPACE COMPLEXITY
 
-Let n is the size of nums, meaning the number of numbers in a designated permutation
+Let n be the size of nums, meaning the number of numbers in a designated permutation
 
 Space complexity: maximum recursion depth is n, the sort function uses O(log(n)) space, but they are independant
 -> O(n) space

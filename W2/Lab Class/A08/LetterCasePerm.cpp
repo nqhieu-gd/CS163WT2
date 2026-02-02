@@ -33,7 +33,7 @@ public:
 /*
 TIME - SPACE COMPLEXITY
 
-Let n is the size of s, meaning the number of characters in s
+Let n be the size of s, meaning the number of characters in s
 
 Space complexity: maximum recursion depth is n
 -> O(n) space

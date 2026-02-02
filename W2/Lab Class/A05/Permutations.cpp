@@ -35,7 +35,7 @@ public:
 /*
 TIME - SPACE COMPLEXITY
 
-Let n is the size of nums, meaning the number of numbers in a designated permutation
+Let n be the size of nums, meaning the number of numbers in a designated permutation
 
 Space complexity: maximum recursion depth is n, there are n! permutation to push to the vector
 -> O(n!*n) space
