@@ -91,7 +91,7 @@ Time complexity: maximum recursion depth is n -> O(n) time
 /*
 ALGORITHM EXPLAINATION
 
-The Insert function will find the location that we can add "data" in, such position must be lower than all of its right-sided
+The insert function will find the location that we can add "data" in, such position must be lower than all of its right-sided
 nodes and higher than all of its left-sided nodes. It means, if "data" is higher than the current node's data, insert it to
 the tree to the right and vice versa, the recursion will stop until a null node is reached, that node will suffice the conditions
 and such is the valid position for "data".

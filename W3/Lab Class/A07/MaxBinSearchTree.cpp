@@ -12,23 +12,22 @@
 class Solution {
 public:
     TreeNode* constructMaximumBinaryTree(vector<int>& nums) {
-        TreeNode* head = nullptr;
-        Construct(nums, 0, nums.size() - 1, head);
-        return head;
-    }
-
-    void Construct(vector<int>& nums, int beg, int end, TreeNode*& head) {
-        int idx = beg;
-        for (int i = beg + 1; i <= end; i++) {
-            if (nums[i] > nums[idx]) {
-                idx = i;
+        stack<TreeNode*> st;
+        for (int i = 0; i < nums.size(); i++) {
+            TreeNode* cur = new TreeNode(nums[i]);
+            while (!st.empty() && st.top()->val < nums[i]) {
+                cur->left = st.top();
+                st.pop();
             }
+            if (!st.empty()) {
+                st.top()->right = cur;
+            }
+
+            st.push(cur);
         }
-        if (!head) {
-            head = new TreeNode(nums[idx]);
-            if (idx > beg) Construct(nums, beg, idx - 1, head->left);
-            if (idx < end) Construct(nums, idx + 1, end, head->right);
-        }
+        while (st.size() > 1)
+            st.pop();
+        return st.top();
     }
 };
 
@@ -39,19 +38,29 @@ TIME - SPACE COMPLEXITY
 
 Let n be the size of nums
 
-Space complexity: maximum recursion depth is n, each recursion call uses 1 extra space (int idx)
+Space complexity: maximum storeage needed for stack is n
 -> O(n) space
 
-Time complexity: maximum recursion depth is n, consider at the number k recursion call, we have to scan a total
-of m elements in nums -> O(m) time -> worst case: O(n^2) time
+Time complexity: the loop traverses the whole nums vector, but each element only got added only once and got removed
+once (except the largest element), each element got their right/left pointer assigned at most once
+-> O(n) + O(n) + O(n) + O(n - 1) = O(n) time
 */
 
 /*
 ALGORITHM EXPLAINATION
 
-The main function of this code is the Construct function, it scans the whole array to find the largest element, then
-it construct a binary tree/sub binary tree using the found element, then create a binary tree using the left leftover
-elements and the right leftover elements as its sub trees on the left and right side correspondingly
+At the start of each loop cycle, a node is created based on the current nums element
+
+Let's say a node is "selected before" another node when there is a subtree that consists of itself as a root and that
+node. So what the loop does is that: when the stack is empty, it simply push the current node; when the stack isn't empty, it examine
+the stack, if the top element's value is smaller than the current nums element, that means the current element must has been
+selected before the stack's top element, and since it was added to the stack before the current nums element, it must has been
+to the left of that nums element, hence assign cur->left = st.top(); and if the condition isn't met, that means the current nums
+element is smaller than the stack's top, and since it is to the right, it must be the stack's top's right subtree's root, hence
+the assigning st.top()->right = cur; but we push the current nums element to stack nevertheless, so the stack will have more than
+1 element if they are decreasing, hence the while loop. And all we've done is assigning the pointers while keeping the largest
+element as the last one in stack (smaller elements got popped, but not larger ones), wee just pop the stack until only one element
+is left and it is both stack's top and the binary tree's root
 */
 
 /*

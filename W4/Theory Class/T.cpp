@@ -107,6 +107,51 @@ void Remove2c(Tree*& head, int x) {
     }
 }
 
+int lvlMax(int a, int b) {
+    return (a > b)? a : b;
+}
+
+int lvlLeft(Tree* root) {
+    if (!root) return 0;
+    return 1 + lvlMax(lvlLeft(root->left), lvlRight(root->left));
+}
+
+int lvlRight(Tree* root) {
+    if (!root) return 0;
+    return 1 + lvlMax(lvlLeft(root->right), lvlRight(root->right));
+}
+
+void rotate(Tree*& root, int side) {
+    if (side == 0 && root->right) {
+        Tree* cur = root;
+        root = root->right;
+        if (root->left) cur->right = root->left;
+        root->left = cur;
+    }
+    else if (side == 1 && root->left) {
+        Tree* cur = root;
+        root = root->left;
+        if (root->right) cur->left = root->right;
+        root->right = cur;
+    }
+}
+
+void Balance(Tree*& root) {
+    if (!root) return;
+    Tree* cur = root;
+    int sub = lvlLeft(root) - lvlRight(root);
+    if (sub < 2 && sub > -2) {
+        Balance(root->right);
+        Balance(root->left);
+        return;
+    }
+    else {
+        if (sub > 0) {
+            if (lvlLeft(root->left) > lvlRight(root->left))
+        }
+    }
+}
+
 int main() {
     Tree* head = nullptr;
     Input(head, 739);
