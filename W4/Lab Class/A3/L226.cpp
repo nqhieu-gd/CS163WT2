@@ -27,21 +27,20 @@ public:
 /*
 TIME - SPACE COMPLEXITY
 
-Let n be the height of tree
+Let h be the height of tree and n be the number of nodes
 
-Space complexity: maximum recursion depth is n, no extra spaces is required
+Space complexity: maximum recursion depth is h, no extra spaces is required
 -> O(n) space
 
-Time complexity: maximum recursion depth is n -> O(n) time
+Time complexity: each node is visited once to check for its child nodes -> O(n) time
 */
 
 /*
 ALGORITHM EXPLAINATION
 
-The insert function will find the location that we can add "data" in, such position must be lower than all of its right-sided
-nodes and higher than all of its left-sided nodes. It means, if "data" is higher than the current node's data, insert it to
-the tree to the right and vice versa, the recursion will stop until a null node is reached, that node will suffice the conditions
-and such is the valid position for "data".
+The invertTree function will change the root's right pointer to the left and the left pointer to the right, then it
+do the same with the root's right and left pointers, swapping their left and right pointers, until it can not do that
+anymore, the whole binary tree was inverted.
 */
 
 /*
@@ -52,18 +51,14 @@ CASE 1: Input: 10
 
 CSAE 2: Input: 2, 5, 1
 		Output:       2
-                       \
-                        5
-                       /
-                      1
+                     /  \
+                    1    5
 
-CASE 3: Input: 2, 5, 0, 4, 3
-		Output:          2
+CASE 3: Input: 1, 2, 5, 0, 4, 3, 6
+		Output:          1
                         / \
-                       0   5
-                          /
-                         4
-                        /
-                       3
+                       5   2
+                      / \  / \
+                     6   3 4  0
 
 */

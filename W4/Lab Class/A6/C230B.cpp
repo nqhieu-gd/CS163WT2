@@ -18,7 +18,8 @@ void TPrime(int n) {
         else if (i % n == 0) {
             std::cout << "NO\n";
             return;
-        }else if (n == i) {
+        }
+        else if (n == i) {
             std::cout << "YES\n";
             return;
         }
