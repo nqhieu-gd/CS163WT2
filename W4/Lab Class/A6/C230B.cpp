@@ -61,40 +61,52 @@ int main() {
 /*
 TIME - SPACE COMPLEXITY
 
+let k = 1000001 be the size of is_prime
+
 Space complexity:
-- vector storage is the number of lanterns -> O(n) space
-- temp vector for merge sort -> O(n) space
-=> O(n) space
+- is_prime storage: O(k)
+- sqr takes constant space -> O(1)
+=> O(k) space
 
 Time complexity:
-- merege sort: O(n)
-- each pair of adjacent location is examined once, plus the outer range, for a total of n + 1 examinations -> O(n)
-=> O(n) time
+- buildUp: the classic sieve of Eratosthene building function -> O(k log(log k))
+- sqr: applying binary search to find the perfect quare root -> O(log x)
+sqr is called n times => O(k log(log k) + n log x) time
 */
 
 /*
 ALGORITHM EXPLAINATION
 
-Firstly, the container (vector in this case) is sorted, then we examine each pair of adjacent location to find the
-largest distance. If the largest distance is bigger than 2 times the distance of the first lantern and starting point
-and of the last lantern and the last point of the road, then the radius of the lighting area is half of it, that way
-every area of the road is covered. Otherwise, the minimum radius must be the higher between the distance of the first
-lantern to the starting point and the distance of the last lantern and the last point to cover the whole road (every
-other point is covered to since the distance is smaller).
+The sieve of Eratosthene is a classic algorithm to detect prime numbers for time efficiency at the cost
+of spaces.
+
+A T-prime is a number with 3 divisors, assume n is a T-prime, then n has 3 divisors which are 1, n and a
+prime number 1 < p < n. Since p is n's divisor, n/p is also n's divisor, and 1 < n/p < n, so n/p = p, which
+means n = p^2.
+
+The sqr function is used to find perfect square root of a number. As stated above, we only need to know
+perfect square root so this is enough.
+
+In the main function, we continuously enter n number, after each input, we examine if that number satisfies
+T-prime's qualities, then print out "YES" or "NO" accordingly.
 */
 
 /*
 TEST CASE
 
-CASE 1: Input: 2, 5,
-               4, 3
-		Output: 3
+CASE 1: Input: 2
+               51 25
+		Output: NO
+                YES
 
-CSAE 2: Input: 5, 12
-               2, 5, 0, 4, 3
-		Output:7
+CASE 2: Input: 5
+               1 25 0 4 3
+		Output: NO
+                YES
+                NO
+                YES
+                NO
 
-CASE 3: Input: 6, 18
-               0, 13, 15, 18, 3, 5
-		Output: 4
+CASE 3: Input: 0
+		Output:
 */

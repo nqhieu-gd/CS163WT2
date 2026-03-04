@@ -82,7 +82,7 @@ CASE 1: Input: 2, 5,
                4, 3
 		Output: 3
 
-CSAE 2: Input: 5, 12
+CASE 2: Input: 5, 12
                2, 5, 0, 4, 3
 		Output:7
 

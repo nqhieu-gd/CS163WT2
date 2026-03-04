@@ -52,3 +52,59 @@ int main() {
     }
     return 0;
 }
+
+//Nguyen Quang Hieu - 25125043
+
+/*
+TIME - SPACE COMPLEXITY
+
+Space complexity:
+- vector storage is the number of lanterns -> O(n) space
+- temp vector for merge sort -> O(n) space
+=> O(n) space
+
+Time complexity:
+- merge sort: O(n)
+- every number needs to be renumbered once -> O(n)
+- the whole number list needs to be traversed to get the number of similar value -> O(n)
+the process repeat t times => O(tn) time
+*/
+
+/*
+ALGORITHM EXPLAINATION
+
+a_i - a_j = i - j <=> a_i - i = a_j - j
+
+Let b_i = a_i - i, we replace a_i with b_i correspondingly, now what we need to do is to find how many
+pairs of number that have the same value.
+The first step after inputing and renumbering the values is to sort the values, we will then check the
+adjacent numbers if they have similar value, and for each n numbers that have the same value, the number
+of number pairs we can get from them is (n - 1)*n/2. By repeating the process until the very end, we get
+the correct answer.
+*/
+
+/*
+TEST CASE
+
+CASE 1: Input: 2
+               5
+               1 25 0 4 3
+               3
+               4 0 5
+		Output: 2
+                0
+
+CASE 2: Input: 3
+               4
+               0 5 21 52
+               5
+               2 5 1250 4 3
+               1
+               52 (1 input leads to 0 pairs)
+		Output: 0
+                0
+                0
+
+CASE 3: Input: 0 (no input leads to no output)
+		Output:
+*/

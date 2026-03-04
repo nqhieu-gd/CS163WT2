@@ -49,7 +49,7 @@ TEST CASE
 CASE 1: Input: 10
 		Output: 10
 
-CSAE 2: Input: 2, 5, 1
+CASE 2: Input: 2, 5, 1
 		Output:       2
                      /  \
                     1    5
