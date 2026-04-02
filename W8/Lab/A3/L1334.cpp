@@ -46,53 +46,43 @@ public:
 /*
 TIME - SPACE COMPLEXITY
 
-let v be the number of vertices in a connected part of the graph, p is the number of
-isolated connected parts in the graph
+let v be the number of vertices in the graph, e is the number of edges
 
-Space complexity:
-- list (adjacency-matrix of the graph): the number of all the vertices in the graph is v*p
--> O((v*n)^2)
-- components stores all the visited vertices of all parts -> O(v*p)
-- ar (visited-edge list): O(v*p)
-- vt stores a maximum of v - 1 vertices in a connected part at once -> O(v)
+Space complexity: dis store the shortest distance between 2 nodes -> O(v^2)
 
 Time complexity:
-- list: traverses the full list saved in the test file to input the graph -> O(v^2)
-- bfsHelper traverses the full row of the current element to find and add the adjacent
-vertices to the queue, then mark them as visited, repeat the process until all vertices
-have been visited, however we still have to examine the full matrix as there may be multiple
-isolated parts -> O((v*p)^2)
+- updateDis: apply the Floyd-Warshall algorithm and update the Dis container, it traverse the whole list of vertices (as intermidiate
+vertice) and the whole adjacency-matrix of the graph to do so -> O(v^3)
+- findTheCity calls updateDis once, then process the whole dis list to perform the calculating operation -> O(v^3 + v^2)
+=> overall: O(v^3)
 
 
 
 ALGORITHM EXPLAINATION
 
-Starting from the root and record it, we will also record all of its neighboring vertices
-to the queue and pop the root back, then we repeat the whole process until all the neighboring
-vertices have been recorded. Then we search for remaining unvisted vertices, them being
-unvisited means that they are in a different component, so we create a new container to store
-them, then we repeat the aforementioned process, repeat until all the vertices have been
-marked visited, that means the graph has been traversed.
+We construct a distance matrix based on the Floyd-Warshall's algorithm, then we determine how many city that is shorter than
+the distanceThreshold to the current processed city, if that number is smaller than the current saved city's number of neighboring
+cities that is shorter to get to than the distanceThreshold, replace it; if no such city is found, return -1 instead
 
 
 
 TEST CASE
 
-CASE 1: Input: n = 3;
+CASE 1: Input: n = 3, distanceThreshold = 3
                 {{0, 0, 0},
                 {0, 0, 0},
                 {0, 0, 0}} (3-isolated-vertices graph)
-		Output: 3
-                1
-                2
-                3
+		Output: -1
 
-CASE 2: Input: n = 0
-                {} (empty graph)
-		Output: 
+CASE 2: Input: n = 2, distanceThreshold = 6
+                {{0, 1},
+                {1, 0}} (2-city system)
+		Output: 0
 
-CASE 3: Input: n = 1
-                {{0}} (single-node graph)
-		Output: 1
-                1
+CASE 3: Input: n = 4, distanceThreshold = 60
+                {{0, 5, 0, 150},
+                {5, 0, 4, 59},
+                {0, 4, 0, 96},
+                {150, 59, 96, 0}} (regular graph)
+		Output: 0 (0 and 2 are both viable, but 0 is lower in index)
 */

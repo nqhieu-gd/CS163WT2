@@ -37,53 +37,45 @@ public:
 /*
 TIME - SPACE COMPLEXITY
 
-let v be the number of vertices in a connected part of the graph, p is the number of
-isolated connected parts in the graph
+let v be the number of vertices in the graph, e is the number of edges
 
 Space complexity:
-- list (adjacency-matrix of the graph): the number of all the vertices in the graph is v*p
--> O((v*n)^2)
-- components stores all the visited vertices of all parts -> O(v*p)
-- ar (visited-edge list): O(v*p)
-- vt stores a maximum of v - 1 vertices in a connected part at once -> O(v)
+- list: stores data of the adjacency list of the graph -> O(e + v)
+- dis: stores the maximum probability of any path to the current vertex -> O(v)
+- adj: stores the adjacent vertices to the top element, at any time it can hold at most e - 1 elements -> O(e)
+=> overall: O(e + v)
 
 Time complexity:
-- list: traverses the full list saved in the test file to input the graph -> O(v^2)
-- bfsHelper traverses the full row of the current element to find and add the adjacent
-vertices to the queue, then mark them as visited, repeat the process until all vertices
-have been visited, however we still have to examine the full matrix as there may be multiple
-isolated parts -> O((v*p)^2)
-
+- list initialization: requires the full edge list's traversal -> O(e)
+- ShortestPath: examine the adj queue and perform a constant number of operation, since adj can store a maximum number of
+elements of ~e, however each vertex can lead to another one and add in adj -> overall: O(e log v), worst case: O(e * v)
+=> overall: O(e log v), worst case: O(e * v)
 
 
 ALGORITHM EXPLAINATION
 
-Starting from the root and record it, we will also record all of its neighboring vertices
-to the queue and pop the root back, then we repeat the whole process until all the neighboring
-vertices have been recorded. Then we search for remaining unvisted vertices, them being
-unvisited means that they are in a different component, so we create a new container to store
-them, then we repeat the aforementioned process, repeat until all the vertices have been
-marked visited, that means the graph has been traversed.
+This is another form of the shortest path problem, but instead of total weight, we will calculate the multiply of weight; this
+is because the more path we add, the less the probability be because it is always less than 1 so the multiple is less than the
+original probability. So we will have to find: the path with the least edges and the multiple of the edges' weight is highest,
+which is just the shortest path problem itself
 
 
 
 TEST CASE
 
-CASE 1: Input: n = 3;
-                {{0, 0, 0},
-                {0, 0, 0},
-                {0, 0, 0}} (3-isolated-vertices graph)
-		Output: 3
-                1
-                2
-                3
+CASE 1: Input: n = 3, start_node = 0, end_node = 2
+                {{1, 0.3, 0},
+                {0.3, 1, 0.6},
+                {0, 0.6, 1}} (3-isolated-vertices graph)
+		Output: 0.18
 
-CASE 2: Input: n = 0
-                {} (empty graph)
-		Output: 
+CASE 2: Input: n = 2, start_node = 0, end_node = 1
+                {{1, 0.54},
+                {0.54, 1}} (dual-node connected graph)
+		Output: 0.54
 
-CASE 3: Input: n = 1
-                {{0}} (single-node graph)
-		Output: 1
-                1
+CASE 3: Input: n = 2, start_node = 0, end_node = 1
+                {{1, 0},
+                {0, 1}} (dual-node seperated graph)
+		Output: 0
 */
